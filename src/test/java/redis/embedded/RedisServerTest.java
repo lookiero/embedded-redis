@@ -1,18 +1,21 @@
 package redis.embedded;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import com.google.common.io.Resources;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import org.junit.Test;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import redis.embedded.exceptions.RedisBuildingException;
 import redis.embedded.util.Architecture;
 import redis.embedded.util.OS;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-
-import static org.junit.Assert.*;
 
 public class RedisServerTest {
 
@@ -98,10 +101,10 @@ public class RedisServerTest {
     public void shouldOverrideDefaultExecutable() throws Exception {
         RedisExecProvider customProvider = RedisExecProvider.defaultProvider()
                 .override(OS.UNIX, Architecture.x86, Resources.getResource("redis-server-2.8.19-32").getFile())
-                .override(OS.UNIX, Architecture.x86_64, Resources.getResource("redis-server-2.8.19").getFile())
+                .override(OS.UNIX, Architecture.x86_64, Resources.getResource("redis-server-alpine").getFile())
                 .override(OS.WINDOWS, Architecture.x86, Resources.getResource("redis-server-2.8.19.exe").getFile())
                 .override(OS.WINDOWS, Architecture.x86_64, Resources.getResource("redis-server-2.8.19.exe").getFile())
-                .override(OS.MAC_OS_X, Resources.getResource("redis-server-2.8.19").getFile());
+                .override(OS.MAC_OS_X, Resources.getResource("redis-server-alpine").getFile());
 
         redisServer = new RedisServerBuilder()
                 .redisExecProvider(customProvider)
